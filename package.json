@@ -1,6 +1,6 @@
 {
   "name": "among-us-bot",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "src/index.mjs",
   "type": "module",
   "repository": "https://github.com/nieopierzony/among-us-bot.git",
