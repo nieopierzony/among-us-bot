@@ -24,7 +24,6 @@
     "dotenv": "^8.2.0",
     "mongoose": "^5.10.14",
     "telegraf": "^3.38.0",
-    "telegraf-i18n": "^6.6.0",
-    "telegraf-session-local": "^2.0.0"
+    "telegraf-i18n": "^6.6.0"
   }
 }
