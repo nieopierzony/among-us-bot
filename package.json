@@ -1,0 +1,30 @@
+{
+  "name": "among-us-bot",
+  "version": "1.0.0",
+  "main": "src/index.mjs",
+  "type": "module",
+  "repository": "https://github.com/nieopierzony/among-us-bot.git",
+  "author": "Philipp Zelinski <43653566+nieopierzony@users.noreply.github.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon -w src src/index.js"
+  },
+  "devDependencies": {
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "nodemon": "^2.0.6",
+    "prettier": "^2.1.2"
+  },
+  "dependencies": {
+    "@nieopierzony/amongus-protocol": "^1.1.32",
+    "cachegoose": "^8.0.0",
+    "canvas": "^2.6.1",
+    "dotenv": "^8.2.0",
+    "mongoose": "^5.10.14",
+    "telegraf": "^3.38.0",
+    "telegraf-i18n": "^6.6.0",
+    "telegraf-session-local": "^2.0.0"
+  }
+}
