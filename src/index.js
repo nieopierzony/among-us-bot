@@ -5,10 +5,9 @@ import cachegoose from 'cachegoose';
 import mongoose from 'mongoose';
 import Telegraf from 'telegraf';
 import TelegrafI18n from 'telegraf-i18n';
-import LocalSession from 'telegraf-session-local';
 
-import { startCommand } from './handlers/index.js';
-import { registerUser, onlyGroups, onlyGroupAdmins } from './middlewares/index.js';
+import { registerUser } from './middlewares/index.js';
+import { startScene } from './scenes/index.js';
 
 const { BOT_TOKEN, DB_URL } = process.env;
 const bot = new Telegraf(BOT_TOKEN);
@@ -21,13 +20,19 @@ const i18n = new TelegrafI18n({
   },
 });
 
-bot.use(new LocalSession({ database: 'temp/sessions.json' }).middleware('group'));
+const { Stage, session } = Telegraf;
+const stage = new Stage([startScene]);
+
+bot.use(session());
 bot.use(i18n.middleware());
+bot.use(stage.middleware());
 bot.use(registerUser);
 
-bot.command('start', onlyGroups, startCommand);
+bot.start(({ scene }) => scene.enter('start'));
+bot.on('message', ({ scene }) => scene.enter('start'));
 
 bot.startPolling();
+bot.launch();
 
 cachegoose(mongoose);
 mongoose.connect(
