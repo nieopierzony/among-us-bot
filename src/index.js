@@ -21,7 +21,7 @@ const i18n = new TelegrafI18n({
 });
 
 const { Stage, session } = Telegraf;
-const stage = new Stage([startScene, checkGameCode, checkRegion]);
+const stage = new Stage([startScene, checkGameCode, checkRegion], { ttl: 15 });
 
 bot.use(session({ ttl: 60 * 5 }));
 bot.use(
@@ -41,11 +41,15 @@ bot.use(i18n.middleware());
 bot.use(stage.middleware());
 bot.use(registerUser);
 
-bot.start(({ scene }) => scene.enter('start'));
-bot.command(onlyGroups, ({ scene }) => scene.enter('start'));
-bot.on('message', ({ scene }) => scene.enter('start'));
+bot.command('start', ({ scene }) => scene.enter('start'));
+bot.command('newgame', onlyGroups, ({ scene }) => scene.enter('start'));
 
-bot.startPolling();
+bot.action('new_game', onlyGroups, ctx => ctx.scene.enter('checkGameCode'));
+bot.action('back', onlyGroups, ctx => {
+  ctx.answerCbQuery();
+  ctx.scene.enter('start');
+});
+
 bot.launch();
 
 cachegoose(mongoose);
