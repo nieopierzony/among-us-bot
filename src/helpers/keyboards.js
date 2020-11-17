@@ -3,7 +3,7 @@ import Telegraf from 'telegraf';
 const { Extra } = Telegraf;
 
 export function backKeyboard(ctx) {
-  return Extra.HTML().markup(m => m.inlineKeyboard([m.callbackButton(ctx.i18n.t('keys.back'), 'main')]));
+  return Extra.HTML().markup(m => m.inlineKeyboard([m.callbackButton(ctx.i18n.t('keys.back'), 'back')]));
 }
 
 export function regionsKeyboard(ctx) {
