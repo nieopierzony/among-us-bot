@@ -1,4 +1,4 @@
-import { mainKeyboard } from './keyboards.js';
+import { mainKeyboard, backKeyboard, regionsKeyboard } from './keyboards.js';
 import sceneFactory from './sceneFactory.js';
 
-export { mainKeyboard, sceneFactory };
+export { mainKeyboard, backKeyboard, regionsKeyboard, sceneFactory };
