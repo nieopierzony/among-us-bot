@@ -6,8 +6,8 @@ const { match } = TelegrafI18n;
 export default name => {
   const scene = new Scene(name);
 
-  scene.hears(match('keys.back'), ctx => ctx.scene.enter('menu'));
-  scene.command('restart', ctx => ctx.scene.enter('menu'));
+  scene.hears(match('keys.back'), ctx => ctx.scene.enter('start'));
+  scene.command(['restart', '/back'], ctx => ctx.scene.enter('start'));
 
   return scene;
 };
