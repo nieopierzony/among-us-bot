@@ -1,22 +1,26 @@
-import { backKeyboard, sceneFactory } from '../../helpers/index.js';
+import { backKeyboard, sceneFactory, returnMessage } from '../../helpers/index.js';
 import Game from '../../models/Game.js';
 
 const scene = sceneFactory('checkGameCode');
 
 scene.enter(ctx => {
-  const { replyWithHTML, i18n, group } = ctx;
+  const { i18n, group } = ctx;
   // Check if group already has a game
   if (group && group.game && group.game.state === 'active') {
-    return replyWithHTML(i18n.t('errors.groupHasActiveGame'));
+    scene.leave();
+    return returnMessage(ctx, i18n.t('errors.groupHasActiveGame'), backKeyboard(ctx));
   } else {
-    return replyWithHTML(i18n.t('checkGameCode.enter'), backKeyboard(ctx));
+    returnMessage(ctx, i18n.t('checkGameCode.enter'), backKeyboard(ctx));
+
+    // When the waiting time is over
+    scene.options.ttl = 20;
+    return setTimeout(() => returnMessage(ctx, i18n.t('checkGameCode.timeOver')), scene.ttl * 1000);
   }
 });
 
 // Listen to the code of the game
 scene.on('message', async ctx => {
   const msgContent = ctx.message.text;
-
   try {
     // Check if it's a valid game code
     if (validateGameCode(msgContent)) {
@@ -32,7 +36,7 @@ scene.on('message', async ctx => {
       throw new Error('errors.unknown');
     }
   } catch (err) {
-    ctx.replyWithHTML(ctx.i18n.t(err.message, { errCode: 1, msgContent }));
+    returnMessage(ctx, ctx.i18n.t(err.message, { errCode: 1, msgContent }));
   }
 });
 
